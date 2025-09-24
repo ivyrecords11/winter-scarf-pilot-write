@@ -18,20 +18,22 @@ Simulation environment built with mujoco.
 Various models of SNN
 
 ### viewer_utils.py
-Launches mujoco.viewer
+Launches mujoco.viewer for simulation visualization
 
 ### simpleDeepRL_*
 - run_rl.py : RL Algorithm
 - run_model.py : run trained models in simulator
 
+### cerebellarNet_run_RL <- WORKING ON IT
+
 ### tiltPlateNoSensor.xml
 you can load the file into the installable Mujoco simulator program and see how it looks
 
-### folders
+## folders
 - .venv - Virtual Environment for running codes
 - pytorch - build for using xpu (Intel GPU - of my personal laptop)
 - spikingjelly - module file for SpikingJelly Library
-### files
+## files
 - simpleDeepRL_* - Reinforced Learning with Simple ANN
 - cerebellarNet_* - Simple Forward Model of SNN, partly inspired by cerebellum
 
@@ -54,6 +56,7 @@ you can load the file into the installable Mujoco simulator program and see how 
 ### TODO ??
 - optuna로 SNN 파라미터 설정
 - RL QAT하는 법 알아보기
+
 
 
 
