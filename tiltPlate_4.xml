@@ -1,0 +1,103 @@
+<mujoco model="tilt_plate_4pillars_edges">
+  <compiler angle="degree" inertiafromgeom="true"/>
+  <option timestep="0.0001" gravity="0 0 -9.81" integrator="RK4"/>
+
+  <default>
+    <geom  condim="6" margin="0.001" solimp="0.9 0.95 0.001" solref="0.002 1"/>
+    <default class="plate">
+      <geom type="box" friction="0.8 0.003 0.001" solimp="0.99 0.99 0.001" solref="0.01 1.5" rgba="0.8 0.8 0.85 1"/>
+    </default>
+    <default class="ball">
+      <geom type="sphere" friction="0.9 0.005 0.002" rgba="0.9 0.3 0.3 1"/>
+    </default>
+    <!-- 공통 기둥 설정 -->
+    <default class="pillar">
+      <joint type="slide" axis="0 0 1" damping="2" limited="true"/>
+      <geom  type="cylinder" rgba="0.3 0.3 0.35 1"/>
+    </default>
+  </default>
+
+  <!-- 고정 파라미터 -->
+  <!-- plate: 0.30m 정사각, 두께 0.01m; ball: r=0.027m, m=0.01kg -->
+  <!-- pillar stroke: 0.00 ~ 0.12m (gear로 0~1 입력에 매핑) -->
+  <size nuserdata="0" nuser_jnt="0" nuser_geom="0" nuser_body="0"/>
+
+  <worldbody>
+    <!-- 판을 공중에 띄워 시작: z0 = 0.22 (기둥 base 0.10 + stroke/2 0.06 + 여유) -->
+    <body name="plate" pos="0 0 0.22">
+      <freejoint name="plate_free"/>
+      <geom name="plate_geom" class="plate" size="0.15 0.15 0.005" mass="1.0"/>
+
+      <!-- 변 중앙 사이트 (상면 z=+두께) -->
+      <site name="edge_n" pos=" 0.000  0.150  0.005" size="0.005"/>
+      <site name="edge_s" pos=" 0.000 -0.150  0.005" size="0.005"/>
+      <site name="edge_e" pos=" 0.150  0.000  0.005" size="0.005"/>
+      <site name="edge_w" pos="-0.150  0.000  0.005" size="0.005"/>
+    </body>
+
+    <!-- 공: 판 위에 살짝 띄워 시작 -->
+    <body name="ball" pos="0 0 0.5">
+      <freejoint name="ball_free"/>
+      <geom name="ball_geom" class="ball" size="0.027" mass="0.01"/>
+    </body>
+
+    <!-- 4개 기둥: 네 변의 중앙 아래 -->
+    <!-- 북(N): (0, +0.15, 0) -->
+    <body name="pillar_n_base" pos="0.000 0.150 0.00">
+      <!-- 시각화: 바닥 실린더(고정) -->
+      <geom name="pillar_n_base_geom" class="pillar" size="0.015 0.10" fromto="0 0 0  0 0 0.10"/>
+      <!-- 슬라이더(상단) 시작 높이 0.10 -->
+      <body name="pillar_n_slider" pos="0 0 0.10">
+        <joint name="j_n" class="pillar" range="0.00 0.12"/>
+        <geom  name="pillar_n_top_geom" class="pillar" size="0.012 0.10" fromto="0 0 0  0 0 0.10"/>
+        <site  name="pillar_n_top" pos="0 0 0.10" size="0.005"/>
+      </body>
+    </body>
+
+    <!-- 남(S): (0, -0.15, 0) -->
+    <body name="pillar_s_base" pos="0.000 -0.150 0.00">
+      <geom name="pillar_s_base_geom" class="pillar" size="0.015 0.10" fromto="0 0 0  0 0 0.10"/>
+      <body name="pillar_s_slider" pos="0 0 0.10">
+        <joint name="j_s" class="pillar" range="0.00 0.12"/>
+        <geom  name="pillar_s_top_geom" class="pillar" size="0.012 0.10" fromto="0 0 0  0 0 0.10"/>
+        <site  name="pillar_s_top" pos="0 0 0.10" size="0.005"/>
+      </body>
+    </body>
+
+    <!-- 동(E): (+0.15, 0, 0) -->
+    <body name="pillar_e_base" pos="0.150 0.000 0.00">
+      <geom name="pillar_e_base_geom" class="pillar" size="0.015 0.10" fromto="0 0 0  0 0 0.10"/>
+      <body name="pillar_e_slider" pos="0 0 0.10">
+        <joint name="j_e" class="pillar" range="0.00 0.12"/>
+        <geom  name="pillar_e_top_geom" class="pillar" size="0.012 0.10" fromto="0 0 0  0 0 0.10"/>
+        <site  name="pillar_e_top" pos="0 0 0.10" size="0.005"/>
+      </body>
+    </body>
+
+    <!-- 서(W): (-0.15, 0, 0) -->
+    <body name="pillar_w_base" pos="-0.150 0.000 0.00">
+      <geom name="pillar_w_base_geom" class="pillar" size="0.015 0.10" fromto="0 0 0  0 0 0.10"/>
+      <body name="pillar_w_slider" pos="0 0 0.10">
+        <joint name="j_w" class="pillar" range="0.00 0.12"/>
+        <geom  name="pillar_w_top_geom" class="pillar" size="0.012 0.10" fromto="0 0 0  0 0 0.10"/>
+        <site  name="pillar_w_top" pos="0 0 0.10" size="0.005"/>
+      </body>
+    </body>
+  </worldbody>
+
+  <!-- 판 변 중앙 ↔ 각 기둥 상단 연결 (사이트-사이트) -->
+  <equality>
+    <connect site1="edge_n" site2="pillar_n_top"/>
+    <connect site1="edge_s" site2="pillar_s_top"/>
+    <connect site1="edge_e" site2="pillar_e_top"/>
+    <connect site1="edge_w" site2="pillar_w_top"/>
+  </equality>
+
+  <actuator>
+    <!-- u=0 → 최소길이(수축), u=1 → 최대길이(신장); gear=0.12로 0~1을 0~0.12m로 매핑 -->
+    <position name="a_n" joint="j_n" kp="800" ctrlrange="0 1" gear="0.12"/>
+    <position name="a_s" joint="j_s" kp="800" ctrlrange="0 1" gear="0.12"/>
+    <position name="a_e" joint="j_e" kp="800" ctrlrange="0 1" gear="0.12"/>
+    <position name="a_w" joint="j_w" kp="800" ctrlrange="0 1" gear="0.12"/>
+  </actuator>
+</mujoco>

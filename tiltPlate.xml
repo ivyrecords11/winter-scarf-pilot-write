@@ -1,0 +1,158 @@
+<mujoco model="tilt_plate">
+  <!-- 단위/파서 설정: 각도 degree, 관성은 geom에서 유도 -->
+  <compiler angle="degree" inertiafromgeom="true"/>
+
+  <!-- 시뮬레이션 옵션: 0.1 ms timestep, 표준 중력 -->
+  <option timestep="0.0001" gravity="0 0 -9.81" integrator="RK4" />
+
+  <!-- 기본값: 마찰(접선, 비틀림, 굴림), 해상도 등 -->
+  <default>
+    <geom  condim="6" margin="0.001" solimp="0.9 0.95 0.001" solref="0.002 1"/>
+    <!-- 평판(금속) 과 구(고무) 정도의 마찰 차이를 줌 -->
+    <default class="plate">
+      <!-- 낮은 굴림마찰: 평활하지만 정지로 수렴 -->
+      <geom type="box" friction="0.8 0.003 0.001" rgba="0.8 0.8 0.85 1"/>
+    </default>
+    <default class="ball">
+      <!-- 굴림마찰을 약간 더 크게 (공이 너무 오래 굴러가지 않도록) -->
+      <geom type="sphere" friction="0.9 0.005 0.002" rgba="0.9 0.3 0.3 1"/>
+    </default>
+    <joint armature="0.002" damping="0.1" limited="true"/>
+    <motor gear="1.0" ctrllimited="true" ctrlrange="-1.0 1.0"/>
+  </default>
+
+  <asset>
+    <!-- 시각화를 위한 재질/텍스처는 생략 가능 -->
+  </asset>
+
+  <worldbody>
+    <!-- 기준 좌표 (0,0,0): 평판의 회전 중심 -->
+    <!-- 평판 본체: 두께 5 mm, 한 변 0.30 m -->
+    <body name="plate_base" pos="0 0 0">
+      <!-- 두 축 힌지: x, y 축으로 기울임 (±5 deg는 필요시 조정) -->
+      <joint name="hinge_x" type="hinge" axis="1 0 0" range="-5 5"/>
+      <joint name="hinge_y" type="hinge" axis="0 1 0" range="-5 5"/>
+
+      <geom name="plate_geom" class="plate" size="0.15 0.15 0.005" mass="1.0"/>
+
+      <!-- 센서(뉴런) 사이트 100개: 30cm×30cm 평면 위 10×10 슬롯
+           - 원점(0,0)은 중심. Z는 평판 윗면 약간 위로(0.006) -->
+      <!-- 슬롯 간격: 0.03 m (0.3 / 9). 인덱스 i,j ∈ [0..9] -->
+      <!-- 이름: sn_i{row}_j{col} -->
+      <site name="sn_i0_j0" pos="-0.135 -0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i0_j1" pos="-0.105 -0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i0_j2" pos="-0.075 -0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i0_j3" pos="-0.045 -0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i0_j4" pos="-0.015 -0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i0_j5" pos=" 0.015 -0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i0_j6" pos=" 0.045 -0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i0_j7" pos=" 0.075 -0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i0_j8" pos=" 0.105 -0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i0_j9" pos=" 0.135 -0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i1_j0" pos="-0.135 -0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i1_j1" pos="-0.105 -0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i1_j2" pos="-0.075 -0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i1_j3" pos="-0.045 -0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i1_j4" pos="-0.015 -0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i1_j5" pos=" 0.015 -0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i1_j6" pos=" 0.045 -0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i1_j7" pos=" 0.075 -0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i1_j8" pos=" 0.105 -0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i1_j9" pos=" 0.135 -0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i2_j0" pos="-0.135 -0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i2_j1" pos="-0.105 -0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i2_j2" pos="-0.075 -0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i2_j3" pos="-0.045 -0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i2_j4" pos="-0.015 -0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i2_j5" pos=" 0.015 -0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i2_j6" pos=" 0.045 -0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i2_j7" pos=" 0.075 -0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i2_j8" pos=" 0.105 -0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i2_j9" pos=" 0.135 -0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i3_j0" pos="-0.135 -0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i3_j1" pos="-0.105 -0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i3_j2" pos="-0.075 -0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i3_j3" pos="-0.045 -0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i3_j4" pos="-0.015 -0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i3_j5" pos=" 0.015 -0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i3_j6" pos=" 0.045 -0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i3_j7" pos=" 0.075 -0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i3_j8" pos=" 0.105 -0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i3_j9" pos=" 0.135 -0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i4_j0" pos="-0.135 -0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i4_j1" pos="-0.105 -0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i4_j2" pos="-0.075 -0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i4_j3" pos="-0.045 -0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i4_j4" pos="-0.015 -0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i4_j5" pos=" 0.015 -0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i4_j6" pos=" 0.045 -0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i4_j7" pos=" 0.075 -0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i4_j8" pos=" 0.105 -0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i4_j9" pos=" 0.135 -0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i5_j0" pos="-0.135 0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i5_j1" pos="-0.105 0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i5_j2" pos="-0.075 0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i5_j3" pos="-0.045 0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i5_j4" pos="-0.015 0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i5_j5" pos=" 0.015 0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i5_j6" pos=" 0.045 0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i5_j7" pos=" 0.075 0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i5_j8" pos=" 0.105 0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i5_j9" pos=" 0.135 0.015 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i6_j0" pos="-0.135 0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i6_j1" pos="-0.105 0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i6_j2" pos="-0.075 0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i6_j3" pos="-0.045 0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i6_j4" pos="-0.015 0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i6_j5" pos=" 0.015 0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i6_j6" pos=" 0.045 0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i6_j7" pos=" 0.075 0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i6_j8" pos=" 0.105 0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i6_j9" pos=" 0.135 0.045 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i7_j0" pos="-0.135 0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i7_j1" pos="-0.105 0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i7_j2" pos="-0.075 0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i7_j3" pos="-0.045 0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i7_j4" pos="-0.015 0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i7_j5" pos=" 0.015 0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i7_j6" pos=" 0.045 0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i7_j7" pos=" 0.075 0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i7_j8" pos=" 0.105 0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i7_j9" pos=" 0.135 0.075 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i8_j0" pos="-0.135 0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i8_j1" pos="-0.105 0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i8_j2" pos="-0.075 0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i8_j3" pos="-0.045 0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i8_j4" pos="-0.015 0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i8_j5" pos=" 0.015 0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i8_j6" pos=" 0.045 0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i8_j7" pos=" 0.075 0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i8_j8" pos=" 0.105 0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i8_j9" pos=" 0.135 0.105 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i9_j0" pos="-0.135 0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i9_j1" pos="-0.105 0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i9_j2" pos="-0.075 0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i9_j3" pos="-0.045 0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i9_j4" pos="-0.015 0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i9_j5" pos=" 0.015 0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i9_j6" pos=" 0.045 0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i9_j7" pos=" 0.075 0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i9_j8" pos=" 0.105 0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <site name="sn_i9_j9" pos=" 0.135 0.135 0.006" size="0.002" type="sphere" rgba="0.2 0.8 0.2 0.5"/>
+      <!-- ... 나머지 90개는 파이썬으로 생성 권장 -->
+    </body>
+
+    <!-- 공(body): 자유낙하 + 평판 접촉.
+         반지름과 질량은 파라미터화(예: r=0.015 m, m=0.03 kg) -->
+    <body name="ball" pos="0 0 0.025">
+      <freejoint name="ball_free"/>
+      <geom name="ball_geom" class="ball" size="0.015" mass="0.03"/>
+    </body>
+  </worldbody>
+
+  <!-- 2축 힌지에 모터(토크 입력). 4엣지 입력→환경에서 매핑해 토크로 주입 -->
+  <actuator>
+    <motor name="mx" joint="hinge_x" gear="1"/>
+    <motor name="my" joint="hinge_y" gear="1"/>
+  </actuator>
+</mujoco>
