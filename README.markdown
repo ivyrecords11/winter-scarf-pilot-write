@@ -1,5 +1,5 @@
 # DUE TO : 25/09/25
-- Evaluate learning of various SNN models
+- Evaluate learning of various SNN Reinforcement Learning models
 
 ## TODO 25/09/23
 - ~mujoco 환경 구현~
@@ -18,4 +18,5 @@
 - optuna로 SNN 파라미터 설정
 - RL QAT하는 법 알아보기
 """
+
 
