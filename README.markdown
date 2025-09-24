@@ -1,5 +1,5 @@
 # DUE TO : 25/09/??
-- Design/Evaluate learning of various SNN Reinforcement Learning models
+- Design/Evaluate learning of various SNN RL models
   
 # Libraries Used
 - PyTorch
@@ -7,9 +7,17 @@
 - MuJoCo Physical Simulator https://mujoco.org/
 
 # Directories
+## IMPORTANT
+### mujoco_model.py
+- SimulationConfig
+Dataclass of simulation variables
+- Environment(cfg:SimulationConfig)
+Simulation environment built with mujoco.
+
+
 ### folders
 - .venv - Virtual Environment for running codes
-- pytorch - build for using xpu (Intel GPU - of my personal computer)
+- pytorch - build for using xpu (Intel GPU - of my personal laptop)
 - spikingjelly - module file for SpikingJelly Library
 ### files
 - simpleDeepRL_* - Reinforced Learning with Simple ANN
@@ -34,6 +42,7 @@
 ### TODO ??
 - optuna로 SNN 파라미터 설정
 - RL QAT하는 법 알아보기
+
 
 
 
