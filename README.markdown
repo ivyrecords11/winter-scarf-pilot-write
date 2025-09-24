@@ -6,6 +6,12 @@
 - SpikingJelly https://github.com/fangwei123456/spikingjelly
 - MuJoCo Physical Simulator https://mujoco.org/
 
+# Directories
+- .venv - Virtual Environment for running codes
+- spikingjelly -
+- simpleDeepRL_* - Reinforced Learning with Simple ANN
+- cerebellarNet_* - Simple Forward Model of SNN, partly inspired by cerebellum
+
 # UPDATES
 ### TODO 25/09/23
 - ~mujoco 환경 구현~
@@ -25,6 +31,7 @@
 ### TODO ??
 - optuna로 SNN 파라미터 설정
 - RL QAT하는 법 알아보기
+
 
 
 
