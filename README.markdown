@@ -9,11 +9,23 @@
 # Directories
 ## IMPORTANT
 ### mujoco_model.py
-- SimulationConfig
+- SimulationConfig : 
 Dataclass of simulation variables
-- Environment(cfg:SimulationConfig)
+- Environment(cfg:SimulationConfig) : 
 Simulation environment built with mujoco.
 
+### SNNModels.py
+Various models of SNN
+
+### viewer_utils.py
+Launches mujoco.viewer
+
+### simpleDeepRL_*
+- run_rl.py : RL Algorithm
+- run_model.py : run trained models in simulator
+
+### tiltPlateNoSensor.xml
+you can load the file into the installable Mujoco simulator program and see how it looks
 
 ### folders
 - .venv - Virtual Environment for running codes
@@ -42,6 +54,7 @@ Simulation environment built with mujoco.
 ### TODO ??
 - optuna로 SNN 파라미터 설정
 - RL QAT하는 법 알아보기
+
 
 
 
