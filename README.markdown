@@ -27,18 +27,19 @@
 ## files
 
 - **config.py**
-  - SimulationConfig:
-  Dataclass of simulation variables
+  - SimulationConfig
+    
+    Dataclass of simulation variables
 
 - **mujoco_model.py** 
   - Environment
-  : Simulation environment built with mujoco
+      Simulation environment built with mujoco
 
 - SNNModels.py
-  : Various models/config of SNN
+    Various models/config of SNN
 
 - viewer_utils.py
-  : Launches mujoco.viewer for simulation visualization
+    Launches mujoco.viewer for simulation visualization
 
 - simpleDeepRL_*.py : 
   : Reinforced Learning with Simple ANN
@@ -70,6 +71,7 @@
 - config 초 단위로 조정
 - optuna로 SNN 파라미터 설정
 - RL QAT하는 법 알아보기
+
 
 
 
