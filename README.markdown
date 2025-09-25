@@ -9,20 +9,25 @@
 # Directories
 
 ## folders
-- .venv 
-  : Virtual Environment for running code
+- .venv
+
+  Virtual Environment for running code
   
 - old
-  : stack of old codes
+
+  stack of old codes
 
 - **physical_models**
-  : xml models tha can be dragged and dropped into mujoco simulator (install from mujoco website)
+
+  xml models tha can be dragged and dropped into mujoco simulator (install from mujoco website)
   
 - pytorch
-  : build for using xpu (Intel GPU of personal laptop)
+
+  build for using xpu (Intel GPU of personal laptop)
   
 - **spikingjelly**
-  : module file for SpikingJelly Library
+
+  module file for SpikingJelly Library
 
 ## files
 
@@ -33,22 +38,28 @@
 
 - **mujoco_model.py** 
   - Environment
-      Simulation environment built with mujoco
+    
+    Simulation environment built with mujoco
 
 - SNNModels.py
-    Various models/config of SNN
+
+  Various models/config of SNN
 
 - viewer_utils.py
-    Launches mujoco.viewer for simulation visualization
 
-- simpleDeepRL_*.py : 
-  : Reinforced Learning with Simple ANN
+  Launches mujoco.viewer for simulation visualization
+
+- simpleDeepRL_*.py 
+
+  Reinforced Learning with Simple ANN
 
 - SNNModels.py
-  : model building
+
+  model building
 
 - trainSNN.py
-  : training code for SNN
+
+  training code for SNN
 
 
 # UPDATES
@@ -71,6 +82,7 @@
 - config 초 단위로 조정
 - optuna로 SNN 파라미터 설정
 - RL QAT하는 법 알아보기
+
 
 
 
