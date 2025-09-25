@@ -4,7 +4,7 @@
 # Libraries Used
 - PyTorch
 - SpikingJelly https://github.com/fangwei123456/spikingjelly
-- MuJoCo Physical Simulator 
+- MuJoCo Physical Simulator https://mujoco.org/
 
 # Directories
 
@@ -16,7 +16,7 @@
   : stack of old codes
 
 - **physical_models**
-  : xml models tha can be dragged and dropped into mujoco simulator (install from https://mujoco.org/)
+  : xml models tha can be dragged and dropped into mujoco simulator (install from mujoco website)
   
 - pytorch
   : build for using xpu (Intel GPU of personal laptop)
@@ -70,6 +70,7 @@
 - config 초 단위로 조정
 - optuna로 SNN 파라미터 설정
 - RL QAT하는 법 알아보기
+
 
 
 
