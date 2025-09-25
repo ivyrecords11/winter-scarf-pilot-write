@@ -4,45 +4,50 @@
 # Libraries Used
 - PyTorch
 - SpikingJelly https://github.com/fangwei123456/spikingjelly
-- MuJoCo Physical Simulator https://mujoco.org/
+- MuJoCo Physical Simulator 
 
 # Directories
 
 ## folders
-- .venv : 
-  Virtual Environment for running code
+- .venv 
+  : Virtual Environment for running code
   
-- old : 
-  stack of old codes
+- old
+  : stack of old codes
+
+- **physical_models**
+  : xml models tha can be dragged and dropped into mujoco simulator (install from https://mujoco.org/)
   
-- pytorch : 
-  build for using xpu (Intel GPU of personal laptop)
+- pytorch
+  : build for using xpu (Intel GPU of personal laptop)
   
-- spikingjelly : 
-  module file for SpikingJelly Library
+- **spikingjelly**
+  : module file for SpikingJelly Library
 
 ## files
 
-- config.py :
+- **config.py**
+  - SimulationConfig:
   Dataclass of simulation variables
-  - SimulationConfig
 
-- mujoco_model.py : 
-  Simulation environment built with mujoco
+- **mujoco_model.py** 
+  - Environment
+  : Simulation environment built with mujoco
 
-- Environment(cfg:SimulationConfig)
+- SNNModels.py
+  : Various models/config of SNN
 
-### SNNModels.py
-- Various models/config of SNN
+- viewer_utils.py
+  : Launches mujoco.viewer for simulation visualization
 
-### viewer_utils.py
-- Launches mujoco.viewer for simulation visualization
+- simpleDeepRL_*.py : 
+  : Reinforced Learning with Simple ANN
 
-- simpleDeepRL_* : 
-  Reinforced Learning with Simple ANN
+- SNNModels.py
+  : model building
 
-### tiltPlateNoSensor.xml
-you can load the file into the installable Mujoco simulator program and see how it looks
+- trainSNN.py
+  : training code for SNN
 
 
 # UPDATES
@@ -65,6 +70,7 @@ you can load the file into the installable Mujoco simulator program and see how 
 - config 초 단위로 조정
 - optuna로 SNN 파라미터 설정
 - RL QAT하는 법 알아보기
+
 
 
 
