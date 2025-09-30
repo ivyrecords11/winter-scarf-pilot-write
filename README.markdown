@@ -25,7 +25,7 @@
 
   build for using xpu (Intel GPU of personal laptop)
   
-- **spikingjelly**
+- **spikingjelly_wrapper**
 
   module file for SpikingJelly Library
 
@@ -82,6 +82,7 @@
 - config 초 단위로 조정
 - optuna로 SNN 파라미터 설정
 - RL QAT하는 법 알아보기
+
 
 
 
